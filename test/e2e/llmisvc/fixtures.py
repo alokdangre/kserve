@@ -32,6 +32,19 @@ KSERVE_TEST_NAMESPACE = "kserve-ci-e2e-test"
 SCHEDULER_CONFIGMAP_NAME = "scheduler-config-e2e"
 SCHEDULER_CONFIGMAP_KEY = "epp"
 
+# Vanilla Kubernetes rejects runAsNonRoot-only containers when the image does not declare a USER.
+# Keep the templates OpenShift-safe and use an explicit non-root UID only in upstream CI test overrides.
+UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT = {
+    "runAsNonRoot": True,
+    "runAsUser": 1000,
+}
+
+LLMD_SIMULATOR_SECURITY_CONTEXT = {
+    "runAsNonRoot": True,
+    "runAsUser": 65532,
+    "runAsGroup": 65532,
+}
+
 LLMINFERENCESERVICE_CONFIGS = {
     "workload-single-cpu": {
         "template": {
@@ -47,6 +60,7 @@ LLMINFERENCESERVICE_CONFIGS = {
                         "limits": {"cpu": "2", "memory": "7Gi"},
                         "requests": {"cpu": "200m", "memory": "2Gi"},
                     },
+                    "securityContext": UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT.copy(),
                 }
             ]
         },
@@ -65,6 +79,7 @@ LLMINFERENCESERVICE_CONFIGS = {
                         "limits": {"cpu": "2", "memory": "7Gi"},
                         "requests": {"cpu": "200m", "memory": "2Gi"},
                     },
+                    "securityContext": UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT.copy(),
                     "livenessProbe": {
                         "httpGet": {"path": "/health", "port": 8000},
                         "initialDelaySeconds": 180,
@@ -110,10 +125,7 @@ LLMINFERENCESERVICE_CONFIGS = {
                             "timeoutSeconds": 5,
                             "failureThreshold": 3,
                         },
-                        "securityContext": {
-                            "runAsNonRoot": False,
-                            "runAsUser": 0,
-                        },
+                        "securityContext": UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT.copy(),
                     }
                 ]
             }
@@ -332,10 +344,7 @@ LLMINFERENCESERVICE_CONFIGS = {
                         "limits": {"cpu": "2", "memory": "7Gi"},
                         "requests": {"cpu": "200m", "memory": "2Gi"},
                     },
-                    "securityContext": {
-                        "runAsNonRoot": False,
-                        "runAsUser": 0,
-                    },
+                    "securityContext": UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT.copy(),
                 }
             ]
         },
@@ -358,10 +367,7 @@ LLMINFERENCESERVICE_CONFIGS = {
                         "limits": {"cpu": "2", "memory": "7Gi"},
                         "requests": {"cpu": "200m", "memory": "2Gi"},
                     },
-                    "securityContext": {
-                        "runAsNonRoot": False,
-                        "runAsUser": 0,
-                    },
+                    "securityContext": UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT.copy(),
                 }
             ]
         },
@@ -768,6 +774,7 @@ LLMINFERENCESERVICE_CONFIGS = {
                         "limits": {"cpu": "1", "memory": "2Gi"},
                         "requests": {"cpu": "200m", "memory": "2Gi"},
                     },
+                    "securityContext": LLMD_SIMULATOR_SECURITY_CONTEXT.copy(),
                 }
             ]
         },
@@ -813,6 +820,7 @@ LLMINFERENCESERVICE_CONFIGS = {
                         "limits": {"cpu": "1", "memory": "2Gi"},
                         "requests": {"cpu": "20m", "memory": "20Mi"},
                     },
+                    "securityContext": LLMD_SIMULATOR_SECURITY_CONTEXT.copy(),
                 }
             ]
         },

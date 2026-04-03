@@ -32,6 +32,7 @@ from .fixtures import (
     inject_k8s_proxy,
     KSERVE_TEST_NAMESPACE,
     KSERVE_PLURAL_LLMINFERENCESERVICECONFIG,
+    UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT,
 )
 from .logging import log_execution, logger
 
@@ -234,6 +235,7 @@ class TestLLMInferenceServiceConversion:
                                 "limits": {"cpu": "2", "memory": "7Gi"},
                                 "requests": {"cpu": "200m", "memory": "2Gi"},
                             },
+                            "securityContext": UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT.copy(),
                         }
                     ]
                 },
@@ -323,6 +325,7 @@ class TestLLMInferenceServiceConversion:
                                 "limits": {"cpu": "2", "memory": "7Gi"},
                                 "requests": {"cpu": "200m", "memory": "2Gi"},
                             },
+                            "securityContext": UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT.copy(),
                         }
                     ]
                 },
@@ -421,6 +424,7 @@ class TestLLMInferenceServiceConversion:
                                 "limits": {"cpu": "2", "memory": "7Gi"},
                                 "requests": {"cpu": "200m", "memory": "2Gi"},
                             },
+                            "securityContext": UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT.copy(),
                         }
                     ]
                 },
@@ -550,6 +554,7 @@ class TestLLMInferenceServiceConversion:
                                 "limits": {"cpu": "2", "memory": "7Gi"},
                                 "requests": {"cpu": "200m", "memory": "2Gi"},
                             },
+                            "securityContext": UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT.copy(),
                         }
                     ]
                 },
@@ -693,6 +698,7 @@ class TestLLMInferenceServiceConversion:
                                 "limits": {"cpu": "2", "memory": "7Gi"},
                                 "requests": {"cpu": "200m", "memory": "2Gi"},
                             },
+                            "securityContext": UPSTREAM_K8S_NON_ROOT_SECURITY_CONTEXT.copy(),
                         }
                     ]
                 },
